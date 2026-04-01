@@ -51,5 +51,10 @@ func init()	{
 			description:	"Attempts to catch a Pokemon",
 			callback:		commandCatch,
 		},
+		"inspect": {
+			name:			"inspect",
+			description:	"Shows data about the Pokemon from the Pokedex (Pokemon needs to be caught first)",
+			callback:		commandInspect,
+		},
 	}
 }
