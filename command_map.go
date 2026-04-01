@@ -17,7 +17,7 @@ type mapResponse struct {
 	}	`json:"results"`
 }
 
-func commandMapNext(cfg *config) error {
+func commandMapNext(cfg *config, args []string) error {
 	body, ok := cfg.Cache.Get(cfg.Next)
 
 	if !ok {
@@ -26,7 +26,7 @@ func commandMapNext(cfg *config) error {
 			return err
 		}
 
-		body, err := io.ReadAll(res.Body)
+		body, err = io.ReadAll(res.Body)
 		res.Body.Close()
 
 		if res.StatusCode > 299 {
@@ -57,7 +57,7 @@ func commandMapNext(cfg *config) error {
 	return nil
 }
 
-func commandMapPrevious(cfg *config) error {
+func commandMapPrevious(cfg *config, args []string) error {
 	if cfg.Previous == "" {
 		fmt.Println("Cannot go back any further!")
 		return nil

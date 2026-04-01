@@ -26,10 +26,14 @@ func main() {
 		}
 
 		first_input := input[0]
+		args := input[1:]
 		command, ok := commands[first_input]
 
 		if ok {
-			command.callback(&config)
+			err := command.callback(&config, args)
+			if err != nil {
+				fmt.Printf("Error happened: %v\n", err)
+			}
 		} else {
 			fmt.Println("Unknown command")
 		}
