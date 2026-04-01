@@ -18,24 +18,30 @@ type mapResponse struct {
 }
 
 func commandMapNext(cfg *config) error {
-	res, err := http.Get(cfg.Next)
-	if err != nil {
-		return err
-	}
+	body, ok := cfg.Cache.Get(cfg.Next)
 
-	body, err := io.ReadAll(res.Body)
-	res.Body.Close()
+	if !ok {
+		res, err := http.Get(cfg.Next)
+		if err != nil {
+			return err
+		}
 
-	if res.StatusCode > 299 {
-		return fmt.Errorf("API call was not successful, response Code: %v", res.StatusCode)
-	}
+		body, err := io.ReadAll(res.Body)
+		res.Body.Close()
 
-	if err != nil {
-		return err
+		if res.StatusCode > 299 {
+			return fmt.Errorf("API call was not successful, response Code: %v", res.StatusCode)
+		}
+
+		if err != nil {
+			return err
+		}
+
+		cfg.Cache.Add(cfg.Next, body)
 	}
 
 	mres := mapResponse{}
-	err = json.Unmarshal(body, &mres)
+	err := json.Unmarshal(body, &mres)
 
 	if err != nil {
 		return err
