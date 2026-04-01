@@ -345,6 +345,7 @@ func commandCatch(cfg *config, args []string) error {
 
 	if tryCatch(pres.BaseExperience) {
 		fmt.Printf("%s was caught!\n", pokemonName)
+		cfg.Pokedex[pokemonName] = pres
 	} else {
 		fmt.Printf("%s escaped!\n", pokemonName)
 	}

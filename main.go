@@ -10,10 +10,12 @@ import (
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
+	pokedex := map[string]pokemonResponse{}
 	config := config {
 		Next:		"https://pokeapi.co/api/v2/location-area/",
 		Previous:	"",
 		Cache:		pokecache.NewCache(10 * time.Second),
+		Pokedex:	pokedex,
 	}
 
 	for {
